@@ -45,7 +45,7 @@ client.on('interactionCreate', async interaction => {
     const lastSeenDate = new Date(0);
     lastSeenDate.setUTCMilliseconds(lastSeenEpoch);
     lastSeenFormattedString = lastSeenDate.toLocaleDateString();
-    await interaction.reply(`Ah, I saw them on ${lastSeenFormattedString}!`);
+    await interaction.reply(`Ah, I saw ${username} on ${lastSeenFormattedString}!`);
     return;
   }
 });
