@@ -9,10 +9,23 @@ const dynamoClient = new DynamoDBClient({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
-
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES] });
 const rest = new REST({ version: '9' }).setToken(process.env.bot_token);
 client.login(process.env.bot_token);
+
+const acceptableCommands = [
+    'ping',
+    'lastseen',
+    'timesince'
+];
+
+const TIME_CONSTANTS = {
+    SECONDS: 'Seconds',
+    MINUTES: 'Minutes',
+    HOURS: 'Hours',
+    DAYS: 'Days',
+    MONTHS: 'Months'
+}
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -21,34 +34,67 @@ client.on('ready', () => {
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
 
-  if (interaction.commandName === 'ping') {
-    await interaction.reply('Pong!');
+  const username = interaction.options.getString('username');
+  if (!username) {
+      await interaction.reply(`You either forgot to tell me who or I can't read that!`);
+      return;
   }
-  if (interaction.commandName === 'lastseen') {
-    const username = interaction.options.getString('username');
-    if (!username) {
-        await interaction.reply(`You either forgot to tell me who or I can't read that!`);
-        return;
-    }
 
-    const user = await fetchUser(username);
-    if (!user) {
-        await interaction.reply(`I've never seen ${username} before in my life!`);
-        return;
-    }
+  const user = await fetchUser(username);
+  if (!user) {
+      await interaction.reply(`I've never seen ${username} before in my life!`);
+      return;
+  }
 
-    const lastSeenEpoch = user?.lastSeen?.S;
-    if (!lastSeenEpoch) {
-        await interaction.reply(`I found ${username}, but I have no date for them!`);
+  switch (interaction.commandName) {
+    case 'ping': {
+        await interaction.reply('Pong!');
         return;
     }
-    const lastSeenDate = new Date(0);
-    lastSeenDate.setUTCMilliseconds(lastSeenEpoch);
-    lastSeenFormattedString = lastSeenDate.toLocaleDateString();
-    await interaction.reply(`Ah, I saw ${username} on ${lastSeenFormattedString}!`);
-    return;
+    case 'lastseen': {
+        const lastSeenEpoch = user?.lastSeen?.S;
+        if (!lastSeenEpoch) {
+            await interaction.reply(`I found ${username}, but I have no date for them!`);
+            return;
+        }
+        await interaction.reply(`Ah, I saw ${username} on ${getFormattedDateFromEpoch(lastSeenEpoch)}!`);
+        return;
+    }
+    case 'timesince': {
+        const lastSeenEpoch = user?.lastSeen?.S;
+        if (!lastSeenEpoch) {
+            await interaction.reply(`I found ${username}, but I have no date for them!`);
+            return;
+        }
+        let timeUnit = interaction.options.getString('timeunit');
+        timeUnit = timeUnit ? timeUnit : TIME_CONSTANTS.DAYS;
+        const millisecondsSince = Date.now() - lastSeenEpoch;
+        await interaction.reply(`Phew! I haven't seen ${username} in ${convertEpochToUnit(millisecondsSince, timeUnit)} ${timeUnit}...`);
+        return;
+    }
   }
 });
+
+function convertEpochToUnit(epoch, unit) {
+    switch (unit) {
+        case TIME_CONSTANTS.SECONDS: {
+            return Math.floor(epoch / 1000);
+        }
+        case TIME_CONSTANTS.MINUTES: {
+            return Math.floor(epoch / 60000);
+        }
+        case TIME_CONSTANTS.HOURS: {
+            return Math.floor(epoch / 3600000);
+        }
+        case TIME_CONSTANTS.DAYS: {
+            return Math.floor(epoch / 86400000);
+        }
+        case TIME_CONSTANTS.MONTHS: {
+            return 'lol this should not have been an option';
+        }
+    }
+}
+
 
 client.on('voiceStateUpdate', async (oldState, newState) => {
     if (oldState.member.user.bot) return;
@@ -59,6 +105,12 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
         const result = await insertUser(user);
     }
 });
+
+async function getFormattedDateFromEpoch(epoch) {
+    const lastSeenDate = new Date(0);
+    lastSeenDate.setUTCMilliseconds(epoch);
+    lastSeenFormattedString = lastSeenDate.toLocaleDateString();
+}
 
 async function insertUser(user) {
     const params = {
