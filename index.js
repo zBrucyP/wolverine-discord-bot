@@ -57,6 +57,7 @@ client.on('interactionCreate', async interaction => {
             await interaction.reply(`I found ${username}, but I have no date for them!`);
             return;
         }
+        console.log(`lastseen: ${username} on ${lastSeenEpoch}`);
         await interaction.reply(`Ah, I saw ${username} on ${getFormattedDateFromEpoch(lastSeenEpoch)}!`);
         return;
     }
