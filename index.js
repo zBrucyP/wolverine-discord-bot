@@ -107,7 +107,7 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
     }
 });
 
-async function getFormattedDateFromEpoch(epoch) {
+function getFormattedDateFromEpoch(epoch) {
     const lastSeenDate = new Date(0);
     lastSeenDate.setUTCMilliseconds(epoch);
     lastSeenFormattedString = lastSeenDate.toLocaleDateString();
