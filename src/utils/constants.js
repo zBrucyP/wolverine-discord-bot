@@ -1,9 +1,3 @@
-const acceptableCommands = [
-    'ping',
-    'lastseen',
-    'timesince'
-];
-
 const TIME_CONSTANTS = {
     SECONDS: 'Seconds',
     MINUTES: 'Minutes',
@@ -12,7 +6,13 @@ const TIME_CONSTANTS = {
     MONTHS: 'Months'
 }
 
+const COMMANDS = {
+    PING: 'ping',
+    LAST_SEEN: 'lastseen',
+    TIME_SINCE: 'timesince'
+}
+
 module.exports = {
-    acceptableCommands,
+    COMMANDS,
     TIME_CONSTANTS
 }
