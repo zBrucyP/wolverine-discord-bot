@@ -15,7 +15,7 @@ const rest = new REST({ version: '9' }).setToken(process.env.bot_token);
 client.login(process.env.bot_token);
 const userDB = new UserDB();
 
-const commandValidator = new CommandValidator(Object.values(COMMANDS)); // TODO: pass commands as arr of strings
+const commandValidator = new CommandValidator(Object.values(COMMANDS));
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
