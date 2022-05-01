@@ -8,7 +8,7 @@
     "start": "node build/index.js",
     "dev": "tsc && start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "tsc",
+
     "herokudeploy": "git add . && git commit -m Heroku && git push heroku main"
   },
   "author": "",
