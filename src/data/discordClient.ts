@@ -1,7 +1,10 @@
-const { Client, Intents } = require('discord.js');
+import { Client, Intents } from "discord.js";
 
-class DiscordClient {
-    constructor() {
+export default class DiscordClientWrapper {
+    private static instance: DiscordClientWrapper;
+    private client: Client;
+
+    private constructor() {
         this.client = new Client(
             {
                 intents: [
@@ -10,12 +13,6 @@ class DiscordClient {
                     Intents.FLAGS.GUILD_MESSAGES
                 ] 
             });
-
-        if (DiscordClient.instance) {
-            return DiscordClient.instance;
-        }
-        
-        DiscordClient.instance = this;
     }
 
     // returns voice data on user. returns null if user not connected to a voice channel
@@ -24,11 +21,14 @@ class DiscordClient {
         return guild.voiceStates.cache.get(userId);
     }
 
-    getClient() {
+    public static getInstance(): DiscordClientWrapper {
+        if (!DiscordClientWrapper.instance) {
+            DiscordClientWrapper.instance = new DiscordClientWrapper();
+        }
+        return DiscordClientWrapper.instance;
+    }
+
+    public getClient(): Client {
         return this.client;
     }
-}
-
-module.exports = {
-    DiscordClient
 }

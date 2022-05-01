@@ -1,12 +1,12 @@
-const { DiscordClient } = require("../data/discordClient");
-const { UserDB } = require("../data/dynamo");
-const { getUserNotSeenMessage, BAD_USERNAME_MESSAGE, getNoDateForUserMessage, getRandomUserAlreadyConnectedMessage } = require("../utils/constants");
-const { getFormattedDateFromEpoch } = require("../utils/utils");
+import DiscordClient from '../data/discordClient';
+import UserDB from '../data/dynamo';
+import { getUserNotSeenMessage, BAD_USERNAME_MESSAGE, getNoDateForUserMessage, getRandomUserAlreadyConnectedMessage } from '../utils/constants';
+import { getFormattedDateFromEpoch } from '../utils/utils';
 
-const userDB = new UserDB();
-const discordClient = new DiscordClient();
+const userDB = UserDB.getInstance();
+const discordClient = DiscordClient.getInstance();
 
-const generateLastSeenResponse = async (username, guildId) => {
+export default async function generateLastSeenResponse(username, guildId): Promise<string> {
     if (!username) return BAD_USERNAME_MESSAGE;
     const user = await userDB.fetchUser(username);
     if (!user) return getUserNotSeenMessage(username);
@@ -21,10 +21,4 @@ const generateLastSeenResponse = async (username, guildId) => {
 
     console.log(`lastseen: ${username} on ${lastSeenEpoch}`);
     return `Ah, I saw ${username} on ${getFormattedDateFromEpoch(lastSeenEpoch)}!`
-}
-
-
-
-module.exports = {
-    generateLastSeenResponse
 }
