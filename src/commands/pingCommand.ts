@@ -1,3 +1,3 @@
 export default function generatePingResponse(): string {
-    return 'Pong! 😉'
+  return 'Pong! 😉';
 }
