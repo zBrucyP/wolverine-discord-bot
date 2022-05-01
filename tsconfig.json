@@ -1,10 +1,10 @@
 {
-    "compilerOptions": {
-      "outDir": "./build",
-      "allowJs": true,
-      "target": "es6",
-      "module": "commonjs",
+  "compilerOptions": {
+    "outDir": "./build",
+    "allowJs": true,
+    "target": "es6",
+    "module": "commonjs"
     //   "moduleResolution": "node"
-    },
-    "include": ["./src/*"]
+  },
+  "include": ["./src/*"]
 }
