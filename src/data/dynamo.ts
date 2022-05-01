@@ -1,18 +1,22 @@
-const { DynamoDBClient, PutItemCommand, GetItemCommand } = require("@aws-sdk/client-dynamodb");
+import { DynamoDBClient, PutItemCommand, GetItemCommand, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
 
-class UserDB {
-    constructor() {
+export default class UserDB {
+    private static instance: UserDB;
+    private dynamoClient: DynamoDBClient;
+
+    private constructor() {
         this.dynamoClient = new DynamoDBClient({ 
             region: "us-east-2",
             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-        });
+        } as DynamoDBClientConfig);
+    }
 
-        if (UserDB.instance) {
-            return UserDB.instance;
+    public static getInstance() {
+        if (!UserDB.instance) {
+            UserDB.instance = new UserDB();
         }
-        
-        UserDB.instance = this;
+        return UserDB.instance;
     }
 
     async insertUser(user) {
@@ -52,8 +56,4 @@ class UserDB {
             console.warn(`Failed to fetch data on user: ${error}`);
         }
     }
-}
-
-module.exports = {
-    UserDB
 }

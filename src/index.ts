@@ -1,18 +1,18 @@
 require('dotenv').config()
-const { COMMANDS } = require('./src/utils/constants');
-const { CommandValidator } = require('./src/commands/commandValidator');
-const { generatePingResponse } = require('./src/commands/pingCommand');
-const { generateLastSeenResponse } = require('./src/commands/lastSeenCommand');
-const { generateTimeSinceResponse } = require('./src/commands/timeSinceCommand');
-const { UserDB } = require('./src/data/dynamo');
-const { DiscordAPI } = require('./src/data/discordApi');
-const { DiscordClient } = require('./src/data/discordClient');
+import { COMMANDS } from './utils/constants';
+import CommandValidator from './commands/commandValidator';
+import generatePingResponse from './commands/pingCommand';
+import generateLastSeenResponse from './commands/lastSeenCommand';
+import generateTimeSinceResponse from './commands/timeSinceCommand';
+import UserDB from './data/dynamo';
+import DiscordAPI from './data/discordApi';
+import DiscordClientWrapper from "./data/discordClient";
 
 // Discordjs setup
-const clientWrapper = new DiscordClient();
-const discordApi = new DiscordAPI();
+const clientWrapper = DiscordClientWrapper.getInstance();
+const discordApi = DiscordAPI.getInstance();
 clientWrapper.getClient().login(process.env.bot_token);
-const userDB = new UserDB();
+const userDB = UserDB.getInstance();
 
 const commandValidator = new CommandValidator(Object.values(COMMANDS));
 
@@ -26,7 +26,6 @@ clientWrapper.getClient().on('interactionCreate', async interaction => {
   switch (interaction.commandName) {
     case COMMANDS.PING: {
         await interaction.reply(generatePingResponse());
-        clientWrapper.getClient().gu
         return;
     }
     case COMMANDS.LAST_SEEN: {

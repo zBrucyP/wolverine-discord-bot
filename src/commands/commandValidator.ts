@@ -1,4 +1,4 @@
-class CommandValidator {
+export default class CommandValidator {
     acceptableCommandSet;
     
     constructor(commands) {
@@ -12,8 +12,4 @@ class CommandValidator {
     isValid(command) {
         return this.acceptableCommandSet.has(command);
     }
-}
-
-module.exports = {
-    CommandValidator
 }

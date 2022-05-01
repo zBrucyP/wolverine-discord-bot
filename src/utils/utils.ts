@@ -1,4 +1,4 @@
-const { TIME_CONSTANTS } = require('../utils/constants');
+import { TIME_CONSTANTS } from '../utils/constants';
 
 // formatted as MM/DD/YYYY
 function getFormattedDateFromEpoch(epoch) {
@@ -28,7 +28,7 @@ function convertEpochToUnit(epoch, unit) {
     }
 }
 
-module.exports = {
+export {
     getFormattedDateFromEpoch,
     convertEpochToUnit
 }

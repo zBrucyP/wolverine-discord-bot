@@ -32,7 +32,7 @@ const CHANNEL_TYPES = {
     VOICE: 2
 }
 
-module.exports = {
+export {
     AWS_REGION,
     BAD_USERNAME_MESSAGE,
     CHANNEL_TYPES,

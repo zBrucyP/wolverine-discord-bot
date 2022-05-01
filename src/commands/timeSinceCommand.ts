@@ -1,12 +1,12 @@
-const { UserDB } = require("../data/dynamo");
-const { convertEpochToUnit } = require("../utils/utils");
-const { DEFAULT_TIME_UNIT, getUserNotSeenMessage, getNoDateForUserMessage, getRandomUserAlreadyConnectedMessage } = require('../utils/constants');
-const { DiscordClient } = require("../data/discordClient");
+import UserDB from "../data/dynamo";
+import { convertEpochToUnit } from "../utils/utils";
+import { DEFAULT_TIME_UNIT, BAD_USERNAME_MESSAGE, getUserNotSeenMessage, getNoDateForUserMessage, getRandomUserAlreadyConnectedMessage } from '../utils/constants';
+import DiscordClientWrapper from "../data/discordClient";
 
-const userDB = new UserDB();
-const discordClient = new DiscordClient();
+const userDB = UserDB.getInstance();
+const discordClient = DiscordClientWrapper.getInstance();
 
-const generateTimeSinceResponse = async (guildId, username, timeUnit) => {
+export default async function generateTimeSinceResponse(guildId, username, timeUnit) {
     if (!username) return BAD_USERNAME_MESSAGE;
     const user = await userDB.fetchUser(username);
     if (!user) return getUserNotSeenMessage(username);
@@ -20,11 +20,7 @@ const generateTimeSinceResponse = async (guildId, username, timeUnit) => {
     }
     
     timeUnit = timeUnit ? timeUnit : DEFAULT_TIME_UNIT;
-    const millisecondsSince = Date.now() - lastSeenEpoch;
+    const millisecondsSince = Date.now() - Number(lastSeenEpoch);
     console.log(`timesince: ${username} ${millisecondsSince}`);
     return `Phew! I haven't seen ${username} in ${convertEpochToUnit(millisecondsSince, timeUnit)} ${timeUnit}... 😓`;
-}
-
-module.exports = {
-    generateTimeSinceResponse
 }
