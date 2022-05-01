@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
     "start": "npm run build && node build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsc && start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "tsc",
+    "herokudeploy": "git add . && git commit -m Heroku && git push heroku main"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +17,7 @@
     "@discordjs/rest": "^0.3.0",
     "discord-api-types": "^0.31.1",
     "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "typescript": "^4.6.4"
   }
 }
