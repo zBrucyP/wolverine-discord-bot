@@ -6,9 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node build/index.js",
-    "dev": "tsc && start",
+    "dev": "tsc && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
-
     "herokudeploy": "git add . && git commit -m Heroku && git push heroku main"
   },
   "author": "",
