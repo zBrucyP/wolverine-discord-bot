@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node build/index.js",
+    "build": "tsc",
+    "start": "node build/index.js",
     "dev": "tsc && start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "tsc",
@@ -17,7 +18,9 @@
     "@discordjs/rest": "^0.3.0",
     "discord-api-types": "^0.31.1",
     "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
     "typescript": "^4.6.4"
   }
 }
