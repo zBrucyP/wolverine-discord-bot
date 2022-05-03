@@ -1,4 +1,4 @@
-import { Client, Intents, VoiceState } from 'discord.js';
+import { Client, Guild, Intents, VoiceState } from 'discord.js';
 
 export default class DiscordClientWrapper {
   private static instance: DiscordClientWrapper;
@@ -26,8 +26,9 @@ export default class DiscordClientWrapper {
   }
 
   // returns voice data on user. returns null if user not connected to a voice channel
-  public getGuildMemberVoiceState(guildId: string, userId: string): VoiceState {
-    const guild = this.client.guilds.cache.get(guildId);
+  public async getGuildMemberVoiceState(guildId: string, userId: string): Promise<VoiceState> {
+    const guild: Guild = this.client.guilds.cache.get(guildId);
+    await guild.fetch(); // hopefully update voicestate cache. Running fetch after guild cache retrieval to avoid fetching multiple guilds unnecessarily
     return guild.voiceStates.cache.get(userId);
   }
 }
