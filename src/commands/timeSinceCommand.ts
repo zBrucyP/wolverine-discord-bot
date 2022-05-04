@@ -21,7 +21,7 @@ export default async function generateTimeSinceResponse(guildId, username, timeU
 
   // check if user is currently connected to a channel
   const userVoiceStatus = await discordClient.getGuildMemberVoiceState(guildId, user.id.S);
-  if (userVoiceStatus) {
+  if (userVoiceStatus?.channelId) {
     return getRandomUserAlreadyConnectedMessage(username);
   }
 

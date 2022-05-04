@@ -19,9 +19,9 @@ export default async function generateLastSeenResponse(username, guildId): Promi
   if (!lastSeenEpoch) return getNoDateForUserMessage(username);
 
   // check if user is currently connected to a channel
-  const userVoiceStatus = await discordClient.getGuildMemberVoiceState(guildId, user.id.S);
+  const userVoiceStatus = await discordClient.getGuildMemberVoiceState(guildId, user.id.S); // TODO: It's the channel id that will be null, not the object
   console.log(`${username} has a voice status channel id of ${userVoiceStatus?.channelId}`);
-  if (userVoiceStatus) {
+  if (userVoiceStatus?.channelId) {
     return getRandomUserAlreadyConnectedMessage(username);
   }
 
