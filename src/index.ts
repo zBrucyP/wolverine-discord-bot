@@ -1,13 +1,16 @@
 require('dotenv').config();
 import { COMMANDS } from './utils/constants';
 import CommandValidator from './commands/commandValidator';
-import generatePingResponse from './commands/pingCommand';
 import generateLastSeenResponse from './commands/lastSeenCommand';
 import generateTimeSinceResponse from './commands/timeSinceCommand';
 import UserDB from './data/dynamo';
 import DiscordAPI from './data/discordApi';
 import DiscordClientWrapper from './data/discordClient';
 import { Interaction, VoiceState } from 'discord.js';
+import Command from './commands/command';
+import PingCommand from './commands/pingCommand';
+import PokeCommand from './commands/pokeCommand';
+import { getUsernameFromInteraction } from './utils/utils';
 
 // Discordjs setup
 const clientWrapper = DiscordClientWrapper.getInstance();
@@ -24,9 +27,12 @@ clientWrapper.getClient().on('ready', () => {
 clientWrapper.getClient().on('interactionCreate', async (interaction: Interaction) => {
   if (!interaction.isCommand() || !commandValidator.isValid(interaction.commandName)) return;
 
+  let command: Command;
+
   switch (interaction.commandName) {
     case COMMANDS.PING: {
-      await interaction.reply(generatePingResponse());
+      command = new PingCommand();
+      await interaction.reply(await command.execute());
       return;
     }
     case COMMANDS.LAST_SEEN: {
@@ -42,6 +48,11 @@ clientWrapper.getClient().on('interactionCreate', async (interaction: Interactio
       const timeUnit = interaction.options.getString('timeunit');
       const response = await generateTimeSinceResponse(guildId, username, timeUnit);
       await interaction.reply(response);
+      return;
+    }
+    case COMMANDS.POKE: {
+      command = new PokeCommand();
+      command.execute(interaction);
       return;
     }
   }
@@ -63,7 +74,3 @@ clientWrapper
     const result = await userDB.insertUser(user);
     return;
   });
-
-function getUsernameFromInteraction(interaction): string {
-  return interaction?.options?.getString('username');
-}

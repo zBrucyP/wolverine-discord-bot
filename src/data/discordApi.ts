@@ -1,5 +1,6 @@
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
+import { GuildChannel } from 'discord.js';
 import { CHANNEL_TYPES } from '../utils/constants';
 
 export default class DiscordAPI {
@@ -26,11 +27,13 @@ export default class DiscordAPI {
   }
 
   // returns all voice channels, excluding a channel named 'AFK'
-  // async getVoiceChannelsFromGuildId(id) {
-  //     const channels: any[] = await this.rest.get(Routes.guildChannels(id));
-  //     const voiceChannels = channels.filter(channel => channel.type === CHANNEL_TYPES.VOICE && channel.name != 'AFK');
-  //     return voiceChannels;
-  // }
+  async getVoiceChannelsFromGuildId(id) {
+    const channels: any[] = (await this.rest.get(Routes.guildChannels(id))) as any[]; // discordjs is not clear about returned type, causes conflicts
+    const voiceChannels = channels.filter(
+      (channel) => channel.type === CHANNEL_TYPES.VOICE && channel.name != 'AFK'
+    );
+    return voiceChannels;
+  }
 
   async getGuildMember(guildId, userId) {
     return await this.rest.get(Routes.guildMember(guildId, userId));

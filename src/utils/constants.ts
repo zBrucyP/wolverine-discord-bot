@@ -14,6 +14,7 @@ const COMMANDS = {
   PING: 'ping',
   LAST_SEEN: 'lastseen',
   TIME_SINCE: 'timesince',
+  POKE: 'poke',
 };
 
 const getUserNotSeenMessage = (username) => `I've never seen ${username} before in my life! 🤷🏽‍♂️`;
@@ -40,11 +41,14 @@ const CHANNEL_TYPES = {
   VOICE: 2,
 };
 
+const DEFAULT_POKE_WAIT = 10;
+
 export {
   AWS_REGION,
   BAD_USERNAME_MESSAGE,
   CHANNEL_TYPES,
   COMMANDS,
+  DEFAULT_POKE_WAIT,
   DEFAULT_TIME_UNIT,
   TIME_CONSTANTS,
   getNoDateForUserMessage,
