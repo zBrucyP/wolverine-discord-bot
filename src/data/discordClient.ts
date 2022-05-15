@@ -10,6 +10,7 @@ export default class DiscordClientWrapper {
         Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_VOICE_STATES,
         Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MEMBERS
       ],
     });
   }
@@ -25,7 +26,7 @@ export default class DiscordClientWrapper {
     return this.client;
   }
 
-  // returns voice data on user. 
+  // returns voice data on user.
   public async getGuildMemberVoiceState(guildId: string, userId: string): Promise<VoiceState> {
     const guild: Guild = this.client.guilds.cache.get(guildId);
     await guild.fetch(); // hopefully update voicestate cache. Running fetch after guild cache retrieval to avoid fetching multiple guilds unnecessarily

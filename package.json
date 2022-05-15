@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node build/index.js",
-    "dev": "tsc && npm start",
+    "dev": "npm run build && npm start",
     "pretty": "npx prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "herokudeploy": "git add . && git commit -m Heroku && git push heroku main"
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.67.0",
+    "@discordjs/builders": "^0.13.0",
     "@discordjs/rest": "^0.3.0",
     "@types/node": "^17.0.30",
     "discord-api-types": "^0.31.1",

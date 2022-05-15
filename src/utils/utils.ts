@@ -1,3 +1,5 @@
+import { ItemResponse } from '@aws-sdk/client-dynamodb';
+import { BaseCommandInteraction } from 'discord.js';
 import { TIME_CONSTANTS } from '../utils/constants';
 
 // formatted as MM/DD/YYYY
@@ -28,4 +30,34 @@ function convertEpochToUnit(epoch, unit) {
   }
 }
 
-export { getFormattedDateFromEpoch, convertEpochToUnit };
+function getUsernameFromInteraction(interaction): string {
+  return interaction?.options?.getString('username');
+}
+
+function customTimeout(seconds): Promise<any> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(null);
+    }, seconds * 1000);
+  });
+}
+
+function getTwoRandomItemsFromList<T>(itemArr: T[]): T[] {
+  if (itemArr.length < 3) return itemArr;
+
+  const firstIndex = Math.floor(Math.random() * itemArr.length);
+  let secondIndex = firstIndex;
+  while (firstIndex === secondIndex) {
+    secondIndex = Math.floor(Math.random() * itemArr.length);
+  }
+
+  return [itemArr[firstIndex], itemArr[secondIndex]];
+}
+
+export {
+  getFormattedDateFromEpoch,
+  convertEpochToUnit,
+  customTimeout,
+  getUsernameFromInteraction,
+  getTwoRandomItemsFromList,
+};
