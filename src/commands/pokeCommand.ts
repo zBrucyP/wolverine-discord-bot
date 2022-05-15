@@ -39,6 +39,7 @@ export default class PokeCommand implements Command {
 
     stopPokeMessageCollector.on('end', async (collected, reason) => {
         if (reason === 'time') {
+            const originalChannelId = userVoiceState.channel.id;
             const timesToMove = 8;
             let moved = 0;
             let firstChannel = true;
@@ -48,7 +49,7 @@ export default class PokeCommand implements Command {
                 await customTimeout(.2);
                 moved++;
             }
-
+            await userVoiceState.setChannel(originalChannelId);
             await interaction.followUp('🍆 🍆 complete.');
         }
     });
