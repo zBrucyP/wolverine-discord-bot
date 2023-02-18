@@ -32,7 +32,7 @@ clientWrapper.getClient().on('interactionCreate', async (interaction: Interactio
   switch (interaction.commandName) {
     case COMMANDS.PING: {
       command = new PingCommand();
-      await interaction.reply(await command.execute());
+      await command.execute(interaction);
       return;
     }
     case COMMANDS.LAST_SEEN: {
@@ -52,7 +52,7 @@ clientWrapper.getClient().on('interactionCreate', async (interaction: Interactio
     }
     case COMMANDS.POKE: {
       command = new PokeCommand();
-      command.execute(interaction);
+      await command.execute(interaction);
       return;
     }
   }

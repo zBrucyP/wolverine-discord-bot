@@ -1,3 +1,5 @@
+import { BaseCommandInteraction } from "discord.js";
+
 export default interface Command {
-  execute(...args): Promise<string>;
+  execute(interaction: BaseCommandInteraction): Promise<string | void>;
 }
