@@ -52,10 +52,17 @@ function getTwoRandomItemsFromList<T>(itemArr: T[]): T[] {
   return [itemArr[firstIndex], itemArr[secondIndex]];
 }
 
+function getRandomItemFromList<T>(itemArr: T[]): T {
+  const index = Math.floor(Math.random() * itemArr.length);
+
+  return itemArr[index];
+}
+
 export {
   getFormattedDateFromEpoch,
   convertEpochToUnit,
   customTimeout,
   getUsernameFromInteraction,
   getTwoRandomItemsFromList,
+  getRandomItemFromList
 };
