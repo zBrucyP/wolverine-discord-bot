@@ -45,7 +45,7 @@ clientWrapper.getClient().on('interactionCreate', async (interaction: Interactio
     case COMMANDS.TIME_SINCE: {
       const username = getUsernameFromInteraction(interaction);
       const guildId = interaction.guildId;
-      const timeUnit = interaction.options.getString('timeunit');
+      const timeUnit = interaction.options.get('timeunit').value;
       const response = await generateTimeSinceResponse(guildId, username, timeUnit);
       await interaction.reply(response);
       return;
@@ -71,6 +71,6 @@ clientWrapper
       } in ${newState.guild.name}`
     );
     const user = await discordApi.getUserFromId(newState.id); // id on new state refers to the user id
-    const result = await userDB.insertUser(user);
+    await userDB.insertUser(user);
     return;
   });
