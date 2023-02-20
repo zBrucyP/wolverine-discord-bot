@@ -15,6 +15,7 @@ const COMMANDS = {
   LAST_SEEN: 'lastseen',
   TIME_SINCE: 'timesince',
   POKE: 'poke',
+  CHILL: 'chill'
 };
 
 const getUserNotSeenMessage = (username) => `I've never seen ${username} before in my life! 🤷🏽‍♂️`;

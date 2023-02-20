@@ -1,3 +1,5 @@
+import ChillCommand from "./commands/chillCommand";
+
 require('dotenv').config();
 import { COMMANDS } from './utils/constants';
 import CommandValidator from './commands/commandValidator';
@@ -55,6 +57,10 @@ clientWrapper.getClient().on('interactionCreate', async (interaction: Interactio
       await command.execute(interaction);
       return;
     }
+    case COMMANDS.CHILL: {
+      command = new ChillCommand();
+      await command.execute(interaction);
+    }
   }
 });
 
@@ -74,3 +80,5 @@ clientWrapper
     await userDB.insertUser(user);
     return;
   });
+
+
