@@ -1,6 +1,4 @@
-import { ItemResponse } from '@aws-sdk/client-dynamodb';
-import { BaseCommandInteraction } from 'discord.js';
-import { TIME_CONSTANTS } from '../utils/constants';
+import { TIME_CONSTANTS } from './constants';
 
 // formatted as MM/DD/YYYY
 function getFormattedDateFromEpoch(epoch) {

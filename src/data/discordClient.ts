@@ -1,4 +1,4 @@
-import { Client, Guild, Intents, VoiceState } from 'discord.js';
+import {Client, Guild, IntentsBitField, VoiceState} from 'discord.js';
 
 export default class DiscordClientWrapper {
   private static instance: DiscordClientWrapper;
@@ -7,10 +7,10 @@ export default class DiscordClientWrapper {
   private constructor() {
     this.client = new Client({
       intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_VOICE_STATES,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.GUILD_MEMBERS
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildVoiceStates,
+        IntentsBitField.Flags.GuildMessages,
+        IntentsBitField.Flags.GuildMembers
       ],
     });
   }

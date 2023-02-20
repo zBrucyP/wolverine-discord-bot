@@ -1,4 +1,4 @@
-import { BaseCommandInteraction, Message } from 'discord.js';
+import { InteractionResponse, Message} from 'discord.js';
 import Command from './command';
 import { customTimeout, getTwoRandomItemsFromList, getUsernameFromInteraction } from '../utils/utils';
 import { DEFAULT_POKE_TIMES_TO_MOVE, DEFAULT_POKE_WAIT } from '../utils/constants';
@@ -7,7 +7,7 @@ import UserDB from '../data/dynamo';
 import DiscordClientWrapper from '../data/discordClient';
 
 export default class PokeCommand implements Command {
-  async execute(interaction: BaseCommandInteraction): Promise<string | void> {
+  async execute(interaction): Promise<string | InteractionResponse | void> {
     const guildId = interaction.guildId;
     const username = getUsernameFromInteraction(interaction);
     const user = await UserDB.getInstance().fetchUser(username);
@@ -19,6 +19,7 @@ export default class PokeCommand implements Command {
     if (!userVoiceState?.channelId) return await interaction.reply(`I can't 🍆 someone who isn't here!`);
 
     await interaction.reply(`Commencing poke operation on ${username} in ${DEFAULT_POKE_WAIT} seconds... 🏁`);
+
     const filter = (m: Message) => m.author?.username.toUpperCase() === username.toUpperCase();
     const stopPokeMessageCollector = interaction.channel.createMessageCollector({filter, time: 9_500});
     stopPokeMessageCollector.on('collect', async (m) => {
@@ -45,6 +46,6 @@ export default class PokeCommand implements Command {
         }
     });
 
-    return await ``;
+    return ``;
   }
 }

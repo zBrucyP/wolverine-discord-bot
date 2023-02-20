@@ -1,5 +1,5 @@
-import { BaseCommandInteraction } from "discord.js";
+import {CommandInteraction, InteractionResponse} from "discord.js";
 
 export default interface Command {
-  execute(interaction: BaseCommandInteraction): Promise<string | void>;
+  execute(interaction: CommandInteraction): Promise<string | InteractionResponse | void>;
 }
