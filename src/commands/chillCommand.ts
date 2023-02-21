@@ -7,7 +7,10 @@ import DiscordClientWrapper from "../data/discordClient";
 import ytdl from 'ytdl-core';
 import UserDB from "../data/dynamo";
 
-const url = 'https://youtu.be/MFy-XOpSVkE?t=4';
+const chillUrls = [
+    'https://youtu.be/MFy-XOpSVkE?t=4',
+    'https://www.youtube.com/watch?v=JROdHUjJ_94&ab_channel=RobScallon'
+];
 
 export default class ChillCommand implements Command {
     async execute(interaction: CommandInteraction): Promise<string | InteractionResponse | void> {
@@ -31,7 +34,8 @@ export default class ChillCommand implements Command {
                 adapterCreator: guild.voiceAdapterCreator
             });
 
-            const stream = ytdl(url, {filter: 'audioonly', begin: '3s'});
+            const randomUrl = getRandomItemFromList(chillUrls);
+            const stream = ytdl(randomUrl, {filter: 'audioonly', begin: '3s'});
             const player = createAudioPlayer();
             const resource = createAudioResource(stream);
             const subscription = connection.subscribe(player);
