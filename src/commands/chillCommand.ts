@@ -9,7 +9,7 @@ import UserDB from "../data/dynamo";
 
 const chillUrls = [
     'https://youtu.be/MFy-XOpSVkE?t=4',
-    'https://www.youtube.com/watch?v=JROdHUjJ_94&ab_channel=RobScallon',
+    'https://www.youtube.com/watch?v=S-Xm7s9eGxU&ab_channel=DistantMirrors',
     'https://www.youtube.com/watch?v=MiKuhfDjims&ab_channel=SpongeSheet',
     'https://www.youtube.com/watch?v=1n05vO7bHk0&ab_channel=dragonballmusic'
 ];
