@@ -11,7 +11,9 @@ const chillUrls = [
     'https://youtu.be/MFy-XOpSVkE?t=4',
     'https://www.youtube.com/watch?v=S-Xm7s9eGxU&ab_channel=DistantMirrors',
     'https://www.youtube.com/watch?v=MiKuhfDjims&ab_channel=SpongeSheet',
-    'https://www.youtube.com/watch?v=1n05vO7bHk0&ab_channel=dragonballmusic'
+    'https://www.youtube.com/watch?v=1n05vO7bHk0&ab_channel=dragonballmusic',
+    'https://www.youtube.com/watch?v=oWqAf4eex14&ab_channel=MikeFitzer',
+    'https://www.youtube.com/watch?v=mHBHHEoJ_WA&ab_channel=PatrickLify'
 ];
 
 export default class ChillCommand implements Command {
